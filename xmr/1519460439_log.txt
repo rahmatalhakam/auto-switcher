@@ -1,0 +1,20 @@
+15:20:39:699	33fc	args: 
+15:20:39:707	33fc	
+15:20:39:716	33fc	ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+15:20:39:724	33fc	บ         Claymore's CryptoNote AMD GPU Miner v10.2 Beta         บ
+15:20:39:732	33fc	ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+15:20:39:741	33fc	
+15:20:39:956	33fc	Wrong Monero wallet address, "-allpools 1" option will be enabled automatically, read Readme for details.
+15:20:39:972	33fc	XMR: 5 pools are specified
+15:20:39:985	33fc	Main Monero pool is xmr-eu1.nanopool.org:14433
+15:20:46:394	33fc	OpenCL platform: AMD Accelerated Parallel Processing
+15:20:46:406	33fc	OpenCL initializing...
+15:20:46:416	33fc	driver 10, 0, 1800, 11
+15:20:46:424	33fc	AMD Cards available: 1 
+15:20:46:433	33fc	GPU #0: Caicos, 512 MB available, 2 compute units
+15:20:46:441	33fc	card 0, m1 512, m2 192 w 16
+15:20:46:449	33fc	0 m = 2
+15:20:46:458	33fc	POOL version
+15:20:46:466	33fc	b141 
+15:20:46:474	33fc	Platform: Windows
+15:20:47:034	33fc	No ASM binary found for GPU 0

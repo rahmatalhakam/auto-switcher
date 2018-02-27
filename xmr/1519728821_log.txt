@@ -1,0 +1,41 @@
+17:53:41:359	336c	args: 
+17:53:41:368	336c	
+17:53:41:377	336c	ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+17:53:41:414	336c	บ         Claymore's CryptoNote AMD GPU Miner v10.2 Beta         บ
+17:53:41:444	336c	ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+17:53:41:465	336c	
+17:53:41:679	336c	XMR: 5 pools are specified
+17:53:41:696	336c	Main Monero pool is xmr-eu1.nanopool.org:14433
+17:53:53:838	336c	OpenCL platform: AMD Accelerated Parallel Processing
+17:53:53:852	336c	OpenCL initializing...
+17:53:53:863	336c	driver 10, 0, 1800, 11
+17:53:53:872	336c	AMD Cards available: 1 
+17:53:53:881	336c	GPU #0: Caicos, 512 MB available, 2 compute units
+17:53:53:889	336c	card 0, m1 512, m2 192 w 16
+17:53:53:899	336c	0 m = 2
+17:53:53:908	336c	POOL version
+17:53:53:916	336c	b141 
+17:53:53:925	336c	Platform: Windows
+17:53:54:417	336c	No ASM binary found for GPU 0
+17:53:54:676	336c	GPU #0 algorithm ASM, -h 64, -dmem 1 (Memory used: 268MB)
+17:53:54:685	336c	Total cards: 1 
+17:53:57:093	336c	Watchdog enabled
+17:53:57:111	336c	Remote management (READ-ONLY MODE) is enabled on port 3333
+17:53:57:127	336c	
+17:53:57:203	29b8	XMR: Stratum - connecting to 'xmr-eu1.nanopool.org' <217.182.65.224> port 14433 (SSL/TLS)
+17:53:58:331	29b8	cert subject: /O=CloudFlare, Inc./OU=CloudFlare Origin CA/CN=CloudFlare Origin Certificate
+17:53:58:417	29b8	cert issuer: /C=US/O=CloudFlare, Inc./OU=CloudFlare Origin SSL Certificate Authority/L=San Francisco/ST=California
+17:53:58:433	29b8	SSL/TLS encryption is enabled
+17:53:58:445	29b8	send: {"method": "login", "params": {"login": "4BrL51JCc9NGQ71kWhnYoDRffsDZy7m1HUU7MRU4nUMXAHNFBEJhkTZV9HdaL4gfuNBxLPc3BeMkLGaPbF5vWtANQo9CFKSmBpbKKfGUkG.worker1/48muhhanif@gmail.com", "pass": "x", "agent": "xmr/1.0"}, "id": 1}
+
+17:53:58:456	29b8	XMR: Stratum - Connected (xmr-eu1.nanopool.org:14433) (SSL/TLS)
+17:53:58:813	29b8	got 278 bytes
+17:53:58:829	29b8	buf: {"id":1,"jsonrpc":"2.0","result":{"id":"1","job":{"blob":"0606b6f1d4d405b9957ff8605542ebb2b4d9d5f2a78e8388a19197e7bc287598b90373c6d67ff300000000ba3f5a3d22954a1fc018aa738e1479c3b6b5b3bf266510f9290fc79cccb41c270a","job_id":"1188","target":"cf8b0000"},"status":"OK"},"error":null}
+
+17:53:58:840	29b8	parse packet: 277
+17:53:58:851	29b8	new buf size: 0
+17:54:00:138	336c	ADL: Cannot find any AMD adapters
+17:54:03:148	336c	ADL: Cannot find any AMD adapters
+17:54:06:163	336c	ADL: Cannot find any AMD adapters
+17:54:09:181	336c	ADL: Cannot find any AMD adapters
+17:54:10:322	1854	ADL: Cannot find any AMD adapters

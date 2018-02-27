@@ -1,0 +1,5 @@
+POOL: stratum+ssl://xmr-eu1.nanopool.org:14433, WALLET: 4BrL51JCc9NGQ71kWhnYoDRffsDZy7m1HUU7MRU4nUMXAHNFBEJhkTZV9HdaL4gfuNBxLPc3BeMkLGaPbF5vWtANQo9CFKSmBpbKKfGUkG.worker1/48muhhanif@gmail.com, PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-eu2.nanopool.org:14433, WALLET: 4BrL51JCc9NGQ71kWhnYoDRffsDZy7m1HUU7MRU4nUMXAHNFBEJhkTZV9HdaL4gfuNBxLPc3BeMkLGaPbF5vWtANQo9CFKSmBpbKKfGUkG.worker1/48muhhanif@gmail.com, PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-asia1.nanopool.org:14433, WALLET: 4BrL51JCc9NGQ71kWhnYoDRffsDZy7m1HUU7MRU4nUMXAHNFBEJhkTZV9HdaL4gfuNBxLPc3BeMkLGaPbF5vWtANQo9CFKSmBpbKKfGUkG.worker1/48muhhanif@gmail.com, PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-us-east1.nanopool.org:14433, WALLET: 4BrL51JCc9NGQ71kWhnYoDRffsDZy7m1HUU7MRU4nUMXAHNFBEJhkTZV9HdaL4gfuNBxLPc3BeMkLGaPbF5vWtANQo9CFKSmBpbKKfGUkG.worker1/48muhhanif@gmail.com, PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-us-west1.nanopool.org:14433, WALLET: 4BrL51JCc9NGQ71kWhnYoDRffsDZy7m1HUU7MRU4nUMXAHNFBEJhkTZV9HdaL4gfuNBxLPc3BeMkLGaPbF5vWtANQo9CFKSmBpbKKfGUkG.worker1/48muhhanif@gmail.com, PSW: x, ALLPOOLS: 0

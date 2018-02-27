@@ -1,0 +1,9 @@
+15:01:13:910	3bd0	args: 
+15:01:13:955	3bd0	
+15:01:13:972	3bd0	ษออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออป
+15:01:13:982	3bd0	บ         Claymore's CryptoNote AMD GPU Miner v10.2 Beta         บ
+15:01:13:994	3bd0	ศออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออออผ
+15:01:14:005	3bd0	
+15:01:14:241	3bd0	Wrong Monero wallet address, "-allpools 1" option will be enabled automatically, read Readme for details.
+15:01:14:252	3bd0	XMR: 5 pools are specified
+15:01:14:262	3bd0	Main Monero pool is xmr-eu1.nanopool.org:14433
