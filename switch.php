@@ -1,11 +1,11 @@
 <?php
-//developed by rahmatalhakam
+//developed by rahmatalhakam and muh hanif
 //rahmatalhakam@gmail.com
 //from https://github.com/rahmatalhakam/
 //check hanifhash.io for our mining services
 date_default_timezone_set('asia/jakarta');	//set the time zone
 $upcounter = 1;								
-$delay = 600;	//time for sleep/delay before looping again (secons)
+$delay = 10;	//time for sleep/delay before looping again (secons)
 $runningProgram = 'default'; 
 	
 	//open and read the data from data.csv and wallet.csv//
@@ -63,11 +63,11 @@ while (true) {
 	$Zcash_reward = $outjson['coins']['Zcash']['block_reward24'];
 
 	//get the exchanger rate of the coins
-	$Ethereum_ex = $outjson['coins']['Ethereum']['exchanger_rate24'];
-	$EthereumClassic_ex = $outjson['coins']['EthereumClassic']['exchanger_rate24'];
-	$Monero_ex = $outjson['coins']['Monero']['exchanger_rate24'];
-	$Electroneum_ex = $outjson['coins']['Electroneum']['exchanger_rate24'];
-	$Zcash_ex = $outjson['coins']['Zcash']['exchanger_rate24'];
+	$Ethereum_ex = $outjson['coins']['Ethereum']['exchange_rate24'];
+	$EthereumClassic_ex = $outjson['coins']['EthereumClassic']['exchange_rate24'];
+	$Monero_ex = $outjson['coins']['Monero']['exchange_rate24'];
+	$Electroneum_ex = $outjson['coins']['Electroneum']['exchange_rate24'];
+	$Zcash_ex = $outjson['coins']['Zcash']['exchange_rate24'];
 
 	//logic to know the reward for 1 day 
 	$ETH_reward = $Ethash_Hashrate / $Ethereum_diff * $Ethereum_reward * 3600 * 24;
