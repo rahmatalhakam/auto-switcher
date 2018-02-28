@@ -5,7 +5,7 @@
 //check hanifhash.io for our mining services
 date_default_timezone_set('asia/jakarta');	//set the time zone
 $upcounter = 1;								
-$delay = 10;	//time for sleep/delay before looping again (secons)
+$delay = 600;	//time for sleep/delay before looping again (secons)
 $runningProgram = 'default'; 
 	
 	//open and read the data from data.csv and wallet.csv//
