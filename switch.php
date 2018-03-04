@@ -5,30 +5,32 @@
 //check hanifhash.io for our mining services
 date_default_timezone_set('asia/jakarta');	//set the time zone
 $upcounter = 1;								
-$delay = 600;	//time for sleep/delay before looping again (secons)
+
 $runningProgram = 'default'; 
 	
-	//open and read the data from data.csv and wallet.csv//
-	$csv = array_map('str_getcsv', file('data.csv'));
-	$worker_name = $csv[0][1];
-	$email = $csv[1][1];
-	$El_Price = $csv[2][1] * $csv[2][2];
-	$Ethash_El_Cost = $csv[3][2] * $El_Price / 1000 *24;
-	$Cryptonight_El_Cost = $csv[4][2] * $El_Price / 1000 *24;
-	$Equihash_El_Cost = $csv[5][2] * $El_Price / 1000 *24;
-	$Ethash_Hashrate = $csv[3][1];
-	$Cryptonight_Hashrate = $csv[4][1];
-	$Equihash_Hashrate = $csv[5][1];
+//open and read the data from data.csv and wallet.csv//
+$csv = array_map('str_getcsv', file('data.csv'));
+$worker_name = $csv[0][1];
+$email = $csv[1][1];
+$El_Price = $csv[2][1] * $csv[2][2];
+$Ethash_El_Cost = $csv[3][2] * $El_Price / 1000 *24;
+$Cryptonight_El_Cost = $csv[4][2] * $El_Price / 1000 *24;
+$Equihash_El_Cost = $csv[5][2] * $El_Price / 1000 *24;
+$Ethash_Hashrate = $csv[3][1];
+$Cryptonight_Hashrate = $csv[4][1];
+$Equihash_Hashrate = $csv[5][1];
+$delay = $csv[0][2];	//time for sleep/delay before looping again (secons)
 
-	$csv = array_map('str_getcsv', file('wallet.csv'));
-	$eth_wallet = $csv[0][1];
-	$etc_wallet = $csv[1][1];
-	$xmr_wallet = $csv[2][1];
-	$xmr_payment_id = $csv[3][1];
-	$etn_wallet = $csv[4][1];
-	$etn_payment_id = $csv[5][1];
-	$zec_wallet = $csv[6][1];
-	//the end of opening data from data.csv and wallet.csv// 
+
+$csv = array_map('str_getcsv', file('wallet.csv'));
+$eth_wallet = $csv[0][1];
+$etc_wallet = $csv[1][1];
+$xmr_wallet = $csv[2][1];
+$xmr_payment_id = $csv[3][1];
+$etn_wallet = $csv[4][1];
+$etn_payment_id = $csv[5][1];
+$zec_wallet = $csv[6][1];
+//the end of opening data from data.csv and wallet.csv// 
 
 while (true) {
 
@@ -43,10 +45,43 @@ while (true) {
 	$output = file_get_contents("https://whattomine.com/coins.json");
 	$outjson = json_decode($output, true);
 
-	//get data from exchanger
-	$output2 = file_get_contents("https://vip.bitcoin.co.id/api/btc_idr/ticker");
+
+	//get data from VIP Bitcoin exchanger
+	$output1 = file_get_contents("https://vip.bitcoin.co.id/api/xrp_idr/ticker");
+	$outjson1 = json_decode($output1, true);
+	$Ripple_ex = $outjson1['ticker']['buy'];
+
+	//get data from VIP Bitcoin exchanger
+	$output2 = file_get_contents("https://vip.bitcoin.co.id/api/eth_idr/ticker");
 	$outjson2 = json_decode($output2, true);
-	$lastPrice = $outjson2['ticker']['sell'];
+	$Ethereum_ex = $outjson2['ticker']['buy'];
+
+	//get data from VIP Bitcoin exchanger
+	$output3 = file_get_contents("https://vip.bitcoin.co.id/api/etc_idr/ticker");
+	$outjson3 = json_decode($output3, true);
+	$EthereumClassic_ex = $outjson3['ticker']['buy'];
+	$lastPrice = $outjson3['ticker']['buy'];
+
+	//get data from Cryptonator exchanger
+	$output4 = file_get_contents("https://api.cryptonator.com/api/ticker/zec-xrp");
+	$outjson4 = json_decode($output4, true);
+	$Zcash_ex = $outjson4['ticker']['price'];
+
+	//get data from Cryptonator exchanger
+	$output5 = file_get_contents("https://api.cryptonator.com/api/ticker/xmr-xrp");
+	$outjson5 = json_decode($output5, true);
+	$Monero_ex = $outjson5['ticker']['price'];
+
+	//get data from Cryptonator exchanger
+	$output6 = file_get_contents("https://www.cryptopia.co.nz/api/GetMarket/ETN_BTC");
+	$outjson6 = json_decode($output6, true);
+	$Electroneum_ex = $outjson6['Data']['BidPrice'];
+
+	//get data from Cryptonator exchanger
+	$output7 = file_get_contents("https://www.cryptopia.co.nz/api/GetMarket/ETC_BTC");
+	$outjson7 = json_decode($output7, true);
+	$EthereumClassic_ex2 = $outjson7['Data']['AskPrice'];
+
 	
 	//get the difficulty of the coins
 	$Ethereum_diff = $outjson['coins']['Ethereum']['difficulty24'];
@@ -62,12 +97,6 @@ while (true) {
 	$Electroneum_reward = $outjson['coins']['Electroneum']['block_reward24'];
 	$Zcash_reward = $outjson['coins']['Zcash']['block_reward24'];
 
-	//get the exchanger rate of the coins
-	$Ethereum_ex = $outjson['coins']['Ethereum']['exchange_rate24'];
-	$EthereumClassic_ex = $outjson['coins']['EthereumClassic']['exchange_rate24'];
-	$Monero_ex = $outjson['coins']['Monero']['exchange_rate24'];
-	$Electroneum_ex = $outjson['coins']['Electroneum']['exchange_rate24'];
-	$Zcash_ex = $outjson['coins']['Zcash']['exchange_rate24'];
 
 	//logic to know the reward for 1 day 
 	$ETH_reward = $Ethash_Hashrate / $Ethereum_diff * $Ethereum_reward * 3600 * 24;
@@ -84,11 +113,12 @@ while (true) {
 	$ZEC_BTC = $ZEC_reward * $Zcash_ex ;
 
 	//logic to know the reward in IDR (rupiah)
-	$ETH_BTC_IDR = $ETH_BTC * $lastPrice;
-	$ETC_BTC_IDR = $ETC_BTC * $lastPrice;
-	$XMR_BTC_IDR = $XMR_BTC * $lastPrice;
-	$ETN_BTC_IDR = $ETN_BTC * $lastPrice;
-	$ZEC_BTC_IDR = $ZEC_BTC * $lastPrice;
+
+	$ETH_BTC_IDR = $ETH_reward  * $Ethereum_ex;
+	$ETC_BTC_IDR = $ETC_reward * $EthereumClassic_ex;
+	$XMR_BTC_IDR = $XMR_reward * $Monero_ex * $Ripple_ex;
+	$ETN_BTC_IDR = $ETN_reward * $Electroneum_ex / $EthereumClassic_ex2 * $EthereumClassic_ex;
+	$ZEC_BTC_IDR = $ZEC_reward * $Zcash_ex * $Ripple_ex;
 
 	//logic to know the net profitability after reduced by electricity cost
 	$ETH_profitability = $ETH_BTC_IDR - $Ethash_El_Cost;
