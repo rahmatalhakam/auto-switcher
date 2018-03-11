@@ -131,14 +131,9 @@ while (true) {
 	switch ($bestCoinProfitability) {
 		case 'eth':
 		if($runningProgram=='default'){
-			$epools = "POOL: eth-eu2.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: eth-us-east1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: eth-us-west1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: eth-asia1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0";
 			$run = "@echo off
 set current_dir=%cd%
 start eth\EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal ".$eth_wallet."/".$worker_name."/".$email." -epsw x -mode 1 -ftime 10";
-			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('eth');
 			$runningProgram='eth';
@@ -156,14 +151,9 @@ start eth\EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal ".$eth_wallet
 		}
 		else{
 			killProgram($runningProgram);
-			$epools = "POOL: eth-eu2.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: eth-us-east1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: eth-us-west1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: eth-asia1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0";
 			$run = "@echo off
 set current_dir=%cd%
 start eth\EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal ".$eth_wallet."/".$worker_name."/".$email." -epsw x -mode 1 -ftime 10";
-			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('eth');
 			$runningProgram='eth';
@@ -171,17 +161,9 @@ start eth\EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal ".$eth_wallet
 		break;
 		case 'etc':
 		if($runningProgram=='default'){
-			$epools = "POOL: etc-eu1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-eu2.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-us-east1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-us-west1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-asia1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-jp1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-au1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0";
 			$run = "@echo off
 set current_dir=%cd%
 start eth\EthDcrMiner64.exe -epool etc-eu1.nanopool.org:19999 -ewal ".$etc_wallet."/".$worker_name."/".$email." -epsw x -mode 1 -ftime 10";
-			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('eth');
 			$runningProgram='etc';
@@ -199,13 +181,6 @@ start eth\EthDcrMiner64.exe -epool etc-eu1.nanopool.org:19999 -ewal ".$etc_walle
 		}
 		else{
 			killProgram($runningProgram);
-			$epools = "POOL: etc-eu1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-eu2.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-us-east1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-us-west1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-asia1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-jp1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
-POOL: etc-au1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0";
 			$run = "@echo off
 set current_dir=%cd%
 start eth\EthDcrMiner64.exe -epool etc-eu1.nanopool.org:19999 -ewal ".$etc_wallet."/".$worker_name."/".$email." -epsw x -mode 1 -ftime 10";
@@ -218,24 +193,12 @@ start eth\EthDcrMiner64.exe -epool etc-eu1.nanopool.org:19999 -ewal ".$etc_walle
 		case 'xmr':
 		if($runningProgram=='default'){
 			if($xmr_payment_id==""){
-			$epools = "POOL: stratum+ssl://xmr-eu1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-eu2.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-asia1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-us-east1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-us-west1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0";
 			}
 			else{
-			$epools = "POOL: stratum+ssl://xmr-eu1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-eu2.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-asia1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-us-east1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-us-west1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0";
-			}
-
+			
 			$run = "@echo off
 set current_dir=%cd%
 start xmr\NsGpuCNMiner.exe";
-			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'xmr'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'xmr'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('xmr');
 			$runningProgram='xmr';
@@ -254,19 +217,7 @@ start xmr\NsGpuCNMiner.exe";
 		else{
 			killProgram($runningProgram);
 			if($xmr_payment_id==""){
-			$epools = "POOL: stratum+ssl://xmr-eu1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-eu2.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-asia1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-us-east1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-us-west1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0";
-			}
-			else{
-			$epools = "POOL: stratum+ssl://xmr-eu1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-eu2.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-asia1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-us-east1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
-POOL: stratum+ssl://xmr-us-west1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0";
-			}
+
 			$run = "@echo off
 set current_dir=%cd%
 start xmr\NsGpuCNMiner.exe";
@@ -279,11 +230,6 @@ start xmr\NsGpuCNMiner.exe";
 		case 'etn':
 		if($runningProgram=='default'){
 			if ($etn_payment_id=="") {
-			$epools = "POOL: ssl://etn-eu1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-eu2.nanopool.org:13433, WALLET: ".$etn_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-asia1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-us-east1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-us-west1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1";
 			}
 			else{
 			$epools = "POOL: ssl://etn-eu1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
@@ -314,16 +260,9 @@ start xmr\NsGpuCNMiner.exe";
 		}
 		else{
 			killProgram($runningProgram);
-			$epools = "POOL: ssl://etn-eu1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-eu2.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-asia1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-us-east1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-us-west1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
-			";
 			$run = "@echo off
 set current_dir=%cd%
 start xmr\NsGpuCNMiner.exe";
-			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'xmr'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'xmr'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('xmr');
 			$runningProgram='etn';
@@ -331,12 +270,7 @@ start xmr\NsGpuCNMiner.exe";
 		break;
 		case 'zec':
 		if($runningProgram=='default'){
-			$epools = "POOL: ssl://zec-eu1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 0
-POOL: ssl://zec-eu2.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
-POOL: ssl://zec-asia1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
-POOL: ssl://zec-us-east1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
-POOL: ssl://zec-us-west1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0";
-			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'zec'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
+			
 			runProgram('zec');
 			$runningProgram='zec';
 			echo "Program zec is running now.".PHP_EOL;
@@ -353,12 +287,6 @@ POOL: ssl://zec-us-west1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_na
 		}
 		else{
 			killProgram($runningProgram);
-			$epools = "POOL: ssl://zec-eu1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 0
-POOL: ssl://zec-eu2.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
-POOL: ssl://zec-asia1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
-POOL: ssl://zec-us-east1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
-POOL: ssl://zec-us-west1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0";
-			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'zec'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			runProgram('zec');
 			$runningProgram='zec';
 		}
