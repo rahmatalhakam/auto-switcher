@@ -114,7 +114,7 @@ while (true) {
 		#############################################################
 
 	//this variable contains the most profit coin (in string)
-	$bestCoinProfitability = array_search(max($profitability), $profitability);
+	$BestOpit = array_search(max($profitability), $profitability);
 
 	//this switch case function is used to run and kill mining program. Divided by the coin's name. 
 	//Each case have 3 conditions: 
@@ -123,7 +123,7 @@ while (true) {
 	//		3) when the most profit coin is changing. So. it will kill the running program and then run the most profit program  
 	//$epools variable is used to rewrite the epools.txt, it will rewrite the default setting as well as $run variable.
 	//$check variable is used to check the running miner program in windows system.
-	switch ($bestCoinProfitability) {
+	switch ($BestOpit) {
 		case 'eth':
 		if($runningProgram=='default'){
 			$run = "@echo off
@@ -226,14 +226,7 @@ start xmr\NsGpuCNMiner.exe";
 		if($runningProgram=='default'){
 			if ($etn_PID=="") {
 			}
-			else{
-			$epools = "POOL: ssl://etn-eu1.nanopool.org:13433, WALLET: ".$etn_wl.".".$etn_PID.".".$wn."/".$mail.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-eu2.nanopool.org:13433, WALLET: ".$etn_wl.".".$etn_PID.".".$wn."/".$mail.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-asia1.nanopool.org:13433, WALLET: ".$etn_wl.".".$etn_PID.".".$wn."/".$mail.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-us-east1.nanopool.org:13433, WALLET: ".$etn_wl.".".$etn_PID.".".$wn."/".$mail.", PSW: z, ALLPOOLS: 1
-POOL: ssl://etn-us-west1.nanopool.org:13433, WALLET: ".$etn_wl.".".$etn_PID.".".$wn."/".$mail.", PSW: z, ALLPOOLS: 1";
-			}
-
+			
 			$run = "@echo off
 set current_dir=%cd%
 start xmr\NsGpuCNMiner.exe";
