@@ -3,32 +3,37 @@
 //rahmatalhakam@gmail.com
 //from https://github.com/rahmatalhakam/
 //check hanifhash.io for our mining services
-date_default_timezone_set('asia/jakarta');
+date_default_timezone_set('asia/jakarta');	//set the time zone
 $upcounter = 1;								
-$delay = 10;
+
 $runningProgram = 'default'; 
 	
-	$csv = array_map('str_getcsv', file('data.csv'));
-	$wn = $csv[0][1];
-	$mail = $csv[1][1];
-	$El_Price = $csv[2][1] * $csv[2][2];
-	$Eth_El_Cst = $csv[3][2] * $El_Price / 1000 *24;
-	$CN_El_Cst = $csv[4][2] * $El_Price / 1000 *24;
-	$EQ_El_Cst = $csv[5][2] * $El_Price / 1000 *24;
-	$ethashrate = $csv[3][1];
-	$CNhashrate = $csv[4][1];
-	$EQhashrate = $csv[5][1];
+//open and read the data from data.csv and wallet.csv//
+$csv = array_map('str_getcsv', file('data.csv'));
+$worker_name = $csv[0][1];
+$email = $csv[1][1];
+$El_Price = $csv[2][1] * $csv[2][2];
+$Ethash_El_Cost = $csv[3][2] * $El_Price / 1000 *24;
+$Cryptonight_El_Cost = $csv[4][2] * $El_Price / 1000 *24;
+$Equihash_El_Cost = $csv[5][2] * $El_Price / 1000 *24;
+$Ethash_Hashrate = $csv[3][1];
+$Cryptonight_Hashrate = $csv[4][1];
+$Equihash_Hashrate = $csv[5][1];
+$delay = $csv[0][2];	//time for sleep/delay before looping again (secons)
 
-	$csv = array_map('str_getcsv', file('wallet.csv'));
-	$Eth_wl = $csv[0][1];
-	$Etc_wl = $csv[1][1];
-	$xmr_wl = $csv[2][1];
-	$xmr_PID = $csv[3][1];
-	$etn_wl = $csv[4][1];
-	$etn_PID = $csv[5][1];
-	$zec_wl = $csv[6][1];
+
+$csv = array_map('str_getcsv', file('wallet.csv'));
+$eth_wallet = $csv[0][1];
+$etc_wallet = $csv[1][1];
+$xmr_wallet = $csv[2][1];
+$xmr_payment_id = $csv[3][1];
+$etn_wallet = $csv[4][1];
+$etn_payment_id = $csv[5][1];
+$zec_wallet = $csv[6][1];
+//the end of opening data from data.csv and wallet.csv// 
 
 while (true) {
+
 	
 	$now = date('Y-m-d H:i:s');
 
@@ -36,40 +41,69 @@ while (true) {
 	echo 'FETCHING -- Upcounter = ' . $upcounter . ' -- ' . $now . PHP_EOL;
 	echo '--------------------------------------' . PHP_EOL;
 	
-	$out = file_get_contents("https://whattomine.com/coins.json");
-	$outjs = json_decode($out, true);
+	//get data from whattomine.com 
+	$output = file_get_contents("https://whattomine.com/coins.json");
+	$outjson = json_decode($output, true);
 
-	$out2 = file_get_contents("https://vip.bitcoin.co.id/api/btc_idr/ticker");
-	$outjs2 = json_decode($out2, true);
-	$lastPrice = $outjs2['ticker']['sell'];
+
+	//get data from VIP Bitcoin exchanger
+	$output1 = file_get_contents("https://vip.bitcoin.co.id/api/xrp_idr/ticker");
+	$outjson1 = json_decode($output1, true);
+	$Ripple_ex = $outjson1['ticker']['buy'];
+
+	//get data from VIP Bitcoin exchanger
+	$output2 = file_get_contents("https://vip.bitcoin.co.id/api/eth_idr/ticker");
+	$outjson2 = json_decode($output2, true);
+	$Ethereum_ex = $outjson2['ticker']['buy'];
+
+	//get data from VIP Bitcoin exchanger
+	$output3 = file_get_contents("https://vip.bitcoin.co.id/api/etc_idr/ticker");
+	$outjson3 = json_decode($output3, true);
+	$EthereumClassic_ex = $outjson3['ticker']['buy'];
+	$lastPrice = $outjson3['ticker']['buy'];
+
+	//get data from Cryptonator exchanger
+	$output4 = file_get_contents("https://api.cryptonator.com/api/ticker/zec-xrp");
+	$outjson4 = json_decode($output4, true);
+	$Zcash_ex = $outjson4['ticker']['price'];
+
+	//get data from Cryptonator exchanger
+	$output5 = file_get_contents("https://api.cryptonator.com/api/ticker/xmr-xrp");
+	$outjson5 = json_decode($output5, true);
+	$Monero_ex = $outjson5['ticker']['price'];
+
+	//get data from Cryptonator exchanger
+	$output6 = file_get_contents("https://www.cryptopia.co.nz/api/GetMarket/ETN_BTC");
+	$outjson6 = json_decode($output6, true);
+	$Electroneum_ex = $outjson6['Data']['BidPrice'];
+
+	//get data from Cryptonator exchanger
+	$output7 = file_get_contents("https://www.cryptopia.co.nz/api/GetMarket/ETC_BTC");
+	$outjson7 = json_decode($output7, true);
+	$EthereumClassic_ex2 = $outjson7['Data']['AskPrice'];
+
 	
 	//get the difficulty of the coins
-	$Eth_diff = $outjs['coins']['Ethereum']['difficulty24'];
-	$Etc_diff = $outjs['coins']['EthereumClassic']['difficulty24'];
-	$XMR_diff = $outjs['coins']['Monero']['difficulty24'];
-	$Etn_diff = $outjs['coins']['Electroneum']['difficulty24'];
-	$zec_diff = $outjs['coins']['Zcash']['difficulty24'];
+	$Ethereum_diff = $outjson['coins']['Ethereum']['difficulty24'];
+	$EthereumClassic_diff = $outjson['coins']['EthereumClassic']['difficulty24'];
+	$Monero_diff = $outjson['coins']['Monero']['difficulty24'];
+	$Electroneum_diff = $outjson['coins']['Electroneum']['difficulty24'];
+	$Zcash_diff = $outjson['coins']['Zcash']['difficulty24'];
 
 	//get the block reward of the coins
-	$Ethereum_reward = $outjs['coins']['Ethereum']['block_reward24'];
-	$EthereumClassic_reward = $outjs['coins']['EthereumClassic']['block_reward24'];
-	$Monero_reward = $outjs['coins']['Monero']['block_reward24'];
-	$Electroneum_reward = $outjs['coins']['Electroneum']['block_reward24'];
-	$Zcash_reward = $outjs['coins']['Zcash']['block_reward24'];
+	$Ethereum_reward = $outjson['coins']['Ethereum']['block_reward24'];
+	$EthereumClassic_reward = $outjson['coins']['EthereumClassic']['block_reward24'];
+	$Monero_reward = $outjson['coins']['Monero']['block_reward24'];
+	$Electroneum_reward = $outjson['coins']['Electroneum']['block_reward24'];
+	$Zcash_reward = $outjson['coins']['Zcash']['block_reward24'];
 
-	//get the exchanger rate of the coins
-	$Ethereum_ex = $outjs['coins']['Ethereum']['exchange_rate24'];
-	$EthereumClassic_ex = $outjs['coins']['EthereumClassic']['exchange_rate24'];
-	$Monero_ex = $outjs['coins']['Monero']['exchange_rate24'];
-	$Electroneum_ex = $outjs['coins']['Electroneum']['exchange_rate24'];
-	$Zcash_ex = $outjs['coins']['Zcash']['exchange_rate24'];
 
 	//logic to know the reward for 1 day 
-	$ETH_reward = $ethashrate / $Eth_diff * $Ethereum_reward * 3600 * 24;
-	$ETC_reward = $ethashrate / $Etc_diff * $EthereumClassic_reward * 3600 * 24;
-	$XMR_reward = $CNhashrate / $XMR_diff * $Monero_reward* 3600 * 24;
-	$ETN_reward = $CNhashrate / $Etn_diff * $Electroneum_reward* 3600 * 24;
-	$ZEC_reward = $EQhashrate / ($zec_diff * 2**13)  * $Zcash_reward * 3600 * 24;
+	$ETH_reward = $Ethash_Hashrate / $Ethereum_diff * $Ethereum_reward * 3600 * 24;
+	$ETC_reward = $Ethash_Hashrate / $EthereumClassic_diff * $EthereumClassic_reward * 3600 * 24;
+	$XMR_reward = $Cryptonight_Hashrate / $Monero_diff * $Monero_reward* 3600 * 24;
+	$ETN_reward = $Cryptonight_Hashrate / $Electroneum_diff * $Electroneum_reward* 3600 * 24;
+	$ZEC_reward = $Equihash_Hashrate / ($Zcash_diff * 2**13)  * $Zcash_reward * 3600 * 24;
 
 	//logic to know reward in btc
 	$ETH_BTC = $ETH_reward  * $Ethereum_ex;
@@ -79,18 +113,19 @@ while (true) {
 	$ZEC_BTC = $ZEC_reward * $Zcash_ex ;
 
 	//logic to know the reward in IDR (rupiah)
-	$ETH_BTC_IDR = $ETH_BTC * $lastPrice;
-	$ETC_BTC_IDR = $ETC_BTC * $lastPrice;
-	$XMR_BTC_IDR = $XMR_BTC * $lastPrice;
-	$ETN_BTC_IDR = $ETN_BTC * $lastPrice;
-	$ZEC_BTC_IDR = $ZEC_BTC * $lastPrice;
+
+	$ETH_BTC_IDR = $ETH_reward  * $Ethereum_ex;
+	$ETC_BTC_IDR = $ETC_reward * $EthereumClassic_ex;
+	$XMR_BTC_IDR = $XMR_reward * $Monero_ex * $Ripple_ex;
+	$ETN_BTC_IDR = $ETN_reward * $Electroneum_ex / $EthereumClassic_ex2 * $EthereumClassic_ex;
+	$ZEC_BTC_IDR = $ZEC_reward * $Zcash_ex * $Ripple_ex;
 
 	//logic to know the net profitability after reduced by electricity cost
-	$ETH_profitability = $ETH_BTC_IDR - $Eth_El_Cst;
-	$ETC_profitability = $ETC_BTC_IDR - $Eth_El_Cst;
-	$XMR_profitability = $XMR_BTC_IDR - $CN_El_Cst;
-	$ETN_profitability = $ETN_BTC_IDR - $CN_El_Cst;
-	$ZEC_profitability = $ZEC_BTC_IDR - $EQ_El_Cst;
+	$ETH_profitability = $ETH_BTC_IDR - $Ethash_El_Cost;
+	$ETC_profitability = $ETC_BTC_IDR - $Ethash_El_Cost;
+	$XMR_profitability = $XMR_BTC_IDR - $Cryptonight_El_Cost;
+	$ETN_profitability = $ETN_BTC_IDR - $Cryptonight_El_Cost;
+	$ZEC_profitability = $ZEC_BTC_IDR - $Equihash_El_Cost;
 
 	//each data are collected  in one array
 	$profitability["eth"] = $ETH_profitability;
@@ -101,11 +136,11 @@ while (true) {
 
 	//show the data in console
 	$file_date = date('Ymd');
-	$ETH=  "[ETH_REWARD : $ETH_reward] [BTC : $ETH_BTC] [IDR : $ETH_BTC_IDR] [EL_COST : $Eth_El_Cst] [Profit : $ETH_profitability]".PHP_EOL;
-	$ETC= "[ETC_REWARD : $ETC_reward] [BTC : $ETC_BTC] [IDR : $ETC_BTC_IDR] [EL_COST : $Eth_El_Cst] [Profit : $ETC_profitability]".PHP_EOL;
-	$XMR=  "[XMR_REWARD : $XMR_reward] [BTC : $XMR_BTC] [IDR : $XMR_BTC_IDR] [EL_COST : $CN_El_Cst] [Profit : $XMR_profitability]".PHP_EOL;
-	$ETN=  "[ETN_REWARD : $ETN_reward] [BTC : $ETN_BTC] [IDR : $ETN_BTC_IDR] [EL_COST : $CN_El_Cst] [Profit : $ETN_profitability]".PHP_EOL;
-	$ZEC=  "[ZEC_REWARD : $ZEC_reward] [BTC : $ZEC_BTC] [IDR : $ZEC_BTC_IDR] [EL_COST : $EQ_El_Cst] [Profit : $ZEC_profitability]".PHP_EOL;
+	$ETH=  "[ETH_REWARD : $ETH_reward] [BTC : $ETH_BTC] [IDR : $ETH_BTC_IDR] [EL_COST : $Ethash_El_Cost] [Profit : $ETH_profitability]".PHP_EOL;
+	$ETC= "[ETC_REWARD : $ETC_reward] [BTC : $ETC_BTC] [IDR : $ETC_BTC_IDR] [EL_COST : $Ethash_El_Cost] [Profit : $ETC_profitability]".PHP_EOL;
+	$XMR=  "[XMR_REWARD : $XMR_reward] [BTC : $XMR_BTC] [IDR : $XMR_BTC_IDR] [EL_COST : $Cryptonight_El_Cost] [Profit : $XMR_profitability]".PHP_EOL;
+	$ETN=  "[ETN_REWARD : $ETN_reward] [BTC : $ETN_BTC] [IDR : $ETN_BTC_IDR] [EL_COST : $Cryptonight_El_Cost] [Profit : $ETN_profitability]".PHP_EOL;
+	$ZEC=  "[ZEC_REWARD : $ZEC_reward] [BTC : $ZEC_BTC] [IDR : $ZEC_BTC_IDR] [EL_COST : $Equihash_El_Cost] [Profit : $ZEC_profitability]".PHP_EOL;
 	echo $ETH,$ETC,$XMR,$ETN,$ZEC;
 	echo "The Most profits : ".array_search(max($profitability), $profitability)." => ".max($profitability).PHP_EOL;
 		
@@ -114,7 +149,7 @@ while (true) {
 		#############################################################
 
 	//this variable contains the most profit coin (in string)
-	$BestOpit = array_search(max($profitability), $profitability);
+	$bestCoinProfitability = array_search(max($profitability), $profitability);
 
 	//this switch case function is used to run and kill mining program. Divided by the coin's name. 
 	//Each case have 3 conditions: 
@@ -123,12 +158,17 @@ while (true) {
 	//		3) when the most profit coin is changing. So. it will kill the running program and then run the most profit program  
 	//$epools variable is used to rewrite the epools.txt, it will rewrite the default setting as well as $run variable.
 	//$check variable is used to check the running miner program in windows system.
-	switch ($BestOpit) {
+	switch ($bestCoinProfitability) {
 		case 'eth':
 		if($runningProgram=='default'){
+			$epools = "POOL: eth-eu2.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: eth-us-east1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: eth-us-west1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: eth-asia1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0";
 			$run = "@echo off
 set current_dir=%cd%
-start eth\EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal ".$Eth_wl."/".$wn."/".$mail." -epsw x -mode 1 -ftime 10";
+start eth\EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal ".$eth_wallet."/".$worker_name."/".$email." -epsw x -mode 1 -ftime 10";
+			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('eth');
 			$runningProgram='eth';
@@ -146,9 +186,14 @@ start eth\EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal ".$Eth_wl."/"
 		}
 		else{
 			killProgram($runningProgram);
+			$epools = "POOL: eth-eu2.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: eth-us-east1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: eth-us-west1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: eth-asia1.nanopool.org:9999, WALLET: ".$eth_wallet."/".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0";
 			$run = "@echo off
 set current_dir=%cd%
-start eth\EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal ".$Eth_wl."/".$wn."/".$mail." -epsw x -mode 1 -ftime 10";
+start eth\EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal ".$eth_wallet."/".$worker_name."/".$email." -epsw x -mode 1 -ftime 10";
+			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('eth');
 			$runningProgram='eth';
@@ -156,9 +201,17 @@ start eth\EthDcrMiner64.exe -epool eth-eu1.nanopool.org:9999 -ewal ".$Eth_wl."/"
 		break;
 		case 'etc':
 		if($runningProgram=='default'){
+			$epools = "POOL: etc-eu1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-eu2.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-us-east1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-us-west1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-asia1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-jp1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-au1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0";
 			$run = "@echo off
 set current_dir=%cd%
-start eth\EthDcrMiner64.exe -epool etc-eu1.nanopool.org:19999 -ewal ".$Etc_wl."/".$wn."/".$mail." -epsw x -mode 1 -ftime 10";
+start eth\EthDcrMiner64.exe -epool etc-eu1.nanopool.org:19999 -ewal ".$etc_wallet."/".$worker_name."/".$email." -epsw x -mode 1 -ftime 10";
+			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('eth');
 			$runningProgram='etc';
@@ -176,9 +229,16 @@ start eth\EthDcrMiner64.exe -epool etc-eu1.nanopool.org:19999 -ewal ".$Etc_wl."/
 		}
 		else{
 			killProgram($runningProgram);
+			$epools = "POOL: etc-eu1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-eu2.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-us-east1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-us-west1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-asia1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-jp1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0
+POOL: etc-au1.nanopool.org:19999, WALLET: ".$etc_wallet.".".$worker_name."/".$email.", PSW: x, WORKER: , ESM: 0, ALLPOOLS: 0";
 			$run = "@echo off
 set current_dir=%cd%
-start eth\EthDcrMiner64.exe -epool etc-eu1.nanopool.org:19999 -ewal ".$Etc_wl."/".$wn."/".$mail." -epsw x -mode 1 -ftime 10";
+start eth\EthDcrMiner64.exe -epool etc-eu1.nanopool.org:19999 -ewal ".$etc_wallet."/".$worker_name."/".$email." -epsw x -mode 1 -ftime 10";
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'eth'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('eth');
@@ -187,13 +247,25 @@ start eth\EthDcrMiner64.exe -epool etc-eu1.nanopool.org:19999 -ewal ".$Etc_wl."/
 		break;
 		case 'xmr':
 		if($runningProgram=='default'){
-			if($xmr_PID==""){
+			if($xmr_payment_id==""){
+			$epools = "POOL: stratum+ssl://xmr-eu1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-eu2.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-asia1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-us-east1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-us-west1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0";
 			}
 			else{
-			
+			$epools = "POOL: stratum+ssl://xmr-eu1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-eu2.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-asia1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-us-east1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-us-west1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0";
+			}
+
 			$run = "@echo off
 set current_dir=%cd%
 start xmr\NsGpuCNMiner.exe";
+			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'xmr'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'xmr'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('xmr');
 			$runningProgram='xmr';
@@ -211,8 +283,20 @@ start xmr\NsGpuCNMiner.exe";
 		}
 		else{
 			killProgram($runningProgram);
-			if($xmr_PID==""){
-
+			if($xmr_payment_id==""){
+			$epools = "POOL: stratum+ssl://xmr-eu1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-eu2.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-asia1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-us-east1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-us-west1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0";
+			}
+			else{
+			$epools = "POOL: stratum+ssl://xmr-eu1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-eu2.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-asia1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-us-east1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0
+POOL: stratum+ssl://xmr-us-west1.nanopool.org:14433, WALLET: ".$xmr_wallet.".".$xmr_payment_id.".".$worker_name."/".$email.", PSW: x, ALLPOOLS: 0";
+			}
 			$run = "@echo off
 set current_dir=%cd%
 start xmr\NsGpuCNMiner.exe";
@@ -224,9 +308,21 @@ start xmr\NsGpuCNMiner.exe";
 		break;
 		case 'etn':
 		if($runningProgram=='default'){
-			if ($etn_PID=="") {
+			if ($etn_payment_id=="") {
+			$epools = "POOL: ssl://etn-eu1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-eu2.nanopool.org:13433, WALLET: ".$etn_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-asia1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-us-east1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-us-west1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1";
 			}
-			
+			else{
+			$epools = "POOL: ssl://etn-eu1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-eu2.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-asia1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-us-east1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-us-west1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1";
+			}
+
 			$run = "@echo off
 set current_dir=%cd%
 start xmr\NsGpuCNMiner.exe";
@@ -248,9 +344,16 @@ start xmr\NsGpuCNMiner.exe";
 		}
 		else{
 			killProgram($runningProgram);
+			$epools = "POOL: ssl://etn-eu1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-eu2.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-asia1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-us-east1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+POOL: ssl://etn-us-west1.nanopool.org:13433, WALLET: ".$etn_wallet.".".$etn_payment_id.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 1
+			";
 			$run = "@echo off
 set current_dir=%cd%
 start xmr\NsGpuCNMiner.exe";
+			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'xmr'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'xmr'.DIRECTORY_SEPARATOR.'runApp.bat',$run);
 			runProgram('xmr');
 			$runningProgram='etn';
@@ -258,7 +361,12 @@ start xmr\NsGpuCNMiner.exe";
 		break;
 		case 'zec':
 		if($runningProgram=='default'){
-			
+			$epools = "POOL: ssl://zec-eu1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 0
+POOL: ssl://zec-eu2.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
+POOL: ssl://zec-asia1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
+POOL: ssl://zec-us-east1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
+POOL: ssl://zec-us-west1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0";
+			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'zec'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			runProgram('zec');
 			$runningProgram='zec';
 			echo "Program zec is running now.".PHP_EOL;
@@ -275,6 +383,12 @@ start xmr\NsGpuCNMiner.exe";
 		}
 		else{
 			killProgram($runningProgram);
+			$epools = "POOL: ssl://zec-eu1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email.", PSW: z, ALLPOOLS: 0
+POOL: ssl://zec-eu2.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
+POOL: ssl://zec-asia1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
+POOL: ssl://zec-us-east1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0
+POOL: ssl://zec-us-west1.nanopool.org:6633, WALLET: ".$zec_wallet.".".$worker_name."/".$email." PSW: z, ALLPOOLS: 0";
+			file_put_contents(dirname(__FILE__).DIRECTORY_SEPARATOR.'zec'.DIRECTORY_SEPARATOR.'epools.txt',$epools);
 			runProgram('zec');
 			$runningProgram='zec';
 		}
