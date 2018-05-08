@@ -21,7 +21,6 @@ $Cryptonight_Hashrate = $csv[4][1];
 $Equihash_Hashrate = $csv[5][1];
 $delay = $csv[0][2];	//time for sleep/delay before looping again (secons)
 
-
 $csv = array_map('str_getcsv', file('wallet.csv'));
 $eth_wallet = $csv[0][1];
 $etc_wallet = $csv[1][1];
@@ -33,8 +32,6 @@ $zec_wallet = $csv[6][1];
 //the end of opening data from data.csv and wallet.csv// 
 
 while (true) {
-
-	
 	$now = date('Y-m-d H:i:s');
 
 	echo '--------------------------------------' . PHP_EOL;
@@ -81,7 +78,6 @@ while (true) {
 	$output7 = file_get_contents("https://www.cryptopia.co.nz/api/GetMarket/ETC_BTC");
 	$outjson7 = json_decode($output7, true);
 	$EthereumClassic_ex2 = $outjson7['Data']['AskPrice'];
-
 	
 	//get the difficulty of the coins
 	$Ethereum_diff = $outjson['coins']['Ethereum']['difficulty24'];
@@ -96,7 +92,6 @@ while (true) {
 	$Monero_reward = $outjson['coins']['Monero']['block_reward24'];
 	$Electroneum_reward = $outjson['coins']['Electroneum']['block_reward24'];
 	$Zcash_reward = $outjson['coins']['Zcash']['block_reward24'];
-
 
 	//logic to know the reward for 1 day 
 	$ETH_reward = $Ethash_Hashrate / $Ethereum_diff * $Ethereum_reward * 3600 * 24;
