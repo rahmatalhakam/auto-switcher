@@ -47,17 +47,17 @@ while (true) {
 
 
 	//get data from VIP Bitcoin exchanger
-	$output1 = file_get_contents("https://vip.bitcoin.co.id/api/xrp_idr/ticker");
+	$output1 = file_get_contents("https://indodax.com/api/xrp_idr/ticker");
 	$outjson1 = json_decode($output1, true);
 	$Ripple_ex = $outjson1['ticker']['buy'];
 
 	//get data from VIP Bitcoin exchanger
-	$output2 = file_get_contents("https://vip.bitcoin.co.id/api/eth_idr/ticker");
+	$output2 = file_get_contents("https://indodax.com/api/eth_idr/ticker");
 	$outjson2 = json_decode($output2, true);
 	$Ethereum_ex = $outjson2['ticker']['buy'];
 
 	//get data from VIP Bitcoin exchanger
-	$output3 = file_get_contents("https://vip.bitcoin.co.id/api/etc_idr/ticker");
+	$output3 = file_get_contents("https://indodax.com/api/etc_idr/ticker");
 	$outjson3 = json_decode($output3, true);
 	$EthereumClassic_ex = $outjson3['ticker']['buy'];
 	$lastPrice = $outjson3['ticker']['buy'];
